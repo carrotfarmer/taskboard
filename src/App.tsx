@@ -1,4 +1,14 @@
-import { Center, Heading, SimpleGrid, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Center,
+  FormControl,
+  FormLabel,
+  Heading,
+  Input,
+  SimpleGrid,
+  Text,
+} from "@chakra-ui/react";
 import { Task, TodoistApi } from "@doist/todoist-api-typescript";
 import React, { useEffect, useState } from "react";
 import { TaskCard } from "./components/TaskCard";
@@ -6,10 +16,11 @@ import { TaskCard } from "./components/TaskCard";
 function App() {
   const [tasks, setTasks] = useState<Task[]>();
   const [quote, setQuote] = useState<any>();
+  const [apiToken, setApiToken] = useState<string>("");
 
+  const token = localStorage.getItem("token") as string;
   // call this once on page load
   useEffect(() => {
-    const token = process.env.REACT_APP_TODOIST_TOKEN as string;
     const todoistApi = new TodoistApi(token);
 
     todoistApi.getTasks().then((tasks: Task[]) => {
@@ -36,29 +47,79 @@ function App() {
 
   return (
     <div className="App">
-      <Center>
-        <Heading size="3xl" pt="10">
-          {new Date().toLocaleTimeString("en-US", {
-            hour: "numeric",
-            minute: "numeric",
-            hour12: true,
-          })}
-        </Heading>
-      </Center>
-      <Center>
-        {/* display quote */}
-        <Heading size="md" pt="10" color="yellow.300">
-          "{quote?.content}"
-        </Heading>
-      </Center>
-      <Center pt="2">
-        <Text fontWeight="bold">- {quote?.author}</Text>
-      </Center>
-      <SimpleGrid columns={5} spacing={5} p={5} pl={10}>
-        {tasks?.map((task: Task) => (
-          <TaskCard task={task} key={task.id} />
-        ))}
-      </SimpleGrid>
+      {token ? (
+        <>
+          <Center>
+            <Heading size="3xl" pt="10">
+              {new Date().toLocaleTimeString("en-US", {
+                hour: "numeric",
+                minute: "numeric",
+                hour12: true,
+              })}
+            </Heading>
+          </Center>
+          <Center p="5">
+            {/* display quote */}
+            <Heading size="md" pt="10" color="yellow.300">
+              "{quote?.content}"
+            </Heading>
+          </Center>
+          <Center pt="2">
+            <Text fontWeight="bold">- {quote?.author}</Text>
+          </Center>
+          <SimpleGrid columns={5} spacing={5} p={5} pl={10}>
+            {tasks?.map((task: Task) => (
+              <TaskCard task={task} key={task.id} />
+            ))}
+          </SimpleGrid>
+        </>
+      ) : (
+        <>
+          <Center>
+            <Heading size="3xl" pt="10">
+              {new Date().toLocaleTimeString("en-US", {
+                hour: "numeric",
+                minute: "numeric",
+                hour12: true,
+              })}
+            </Heading>
+          </Center>
+          <Center>
+            {/* display quote */}
+            <Heading size="md" pt="10" color="yellow.300">
+              "{quote?.content}"
+            </Heading>
+          </Center>
+          <Center pt="2">
+            <Text fontWeight="bold">- {quote?.author}</Text>
+          </Center>
+
+          <Center pt="10">
+            <FormControl boxSize="xs">
+              <FormLabel>Enter your Todoist API token</FormLabel>
+              <Input
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  setApiToken(e.currentTarget.value);
+                }}
+              />
+              <Box pt="5">
+                <Button
+                  onClick={() => {
+                    if (apiToken && apiToken.length > 39) {
+                      localStorage.setItem("token", apiToken);
+                      window.location.reload();
+                    } else {
+                      alert("Invalid API token");
+                    }
+                  }}
+                >
+                  Done
+                </Button>
+              </Box>
+            </FormControl>
+          </Center>
+        </>
+      )}
     </div>
   );
 }
