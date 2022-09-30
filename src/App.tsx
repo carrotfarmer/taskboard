@@ -36,7 +36,6 @@ function App() {
 
   return (
     <div className="App">
-      {/* display time in a beautiful way */}
       <Center>
         <Heading size="3xl" pt="10">
           {new Date().toLocaleTimeString("en-US", {

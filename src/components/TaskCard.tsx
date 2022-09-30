@@ -1,14 +1,5 @@
-import {
-  Box,
-  Center,
-  Heading,
-  Highlight,
-  HStack,
-  Tag,
-  Text,
-  VStack,
-} from "@chakra-ui/react";
-import { Label, Task } from "@doist/todoist-api-typescript";
+import { Box, Center, Heading, HStack, Tag, Text } from "@chakra-ui/react";
+import { Task } from "@doist/todoist-api-typescript";
 import React from "react";
 
 interface TaskCardProps {
