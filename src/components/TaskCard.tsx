@@ -1,4 +1,12 @@
-import { Box, Center, Heading, HStack, Tag, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Center,
+  Heading,
+  Tag,
+  Text,
+  Wrap,
+  WrapItem,
+} from "@chakra-ui/react";
 import { Task } from "@doist/todoist-api-typescript";
 import React from "react";
 
@@ -29,7 +37,7 @@ export const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
       p="5"
       borderWidth={2}
       boxShadow="xl"
-      w="14rem"
+      w="16rem"
       borderRadius="xl"
       _hover={{
         transform: "scale(1.05)",
@@ -47,12 +55,16 @@ export const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
       </Center>
       <Center>
         <Box p="5">
-          <Text>{task.description}</Text>
-          <HStack spacing={5}>
+          <Text fontSize="sm" color="gray.300">
+            {task.description}
+          </Text>
+          <Wrap spacing={5} pt="2" direction="row">
             {task.labels.map((label) => (
-              <Tag>{label}</Tag>
+              <WrapItem>
+                <Tag size="sm">{label}</Tag>
+              </WrapItem>
             ))}
-          </HStack>
+          </Wrap>
           {task.due && (
             <Text pt="5" fontSize="xs">
               {/* Due: {`${date}`} */}

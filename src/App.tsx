@@ -31,7 +31,6 @@ function App() {
         localStorage.setItem("tasks", JSON.stringify(tasks));
       } else {
         // load tasks from local storage
-        console.log("Loading tasks from local storage");
         const cachedTasks = JSON.parse(localStorage.getItem("tasks") || "[]");
         setTasks(cachedTasks);
       }
@@ -67,7 +66,7 @@ function App() {
           <Center pt="2">
             <Text fontWeight="bold">- {quote?.author}</Text>
           </Center>
-          <SimpleGrid columns={5} spacing={5} p={5} pl={10}>
+          <SimpleGrid columns={5} spacing={3} p={5} pl={10}>
             {tasks?.map((task: Task) => (
               <TaskCard task={task} key={task.id} />
             ))}
