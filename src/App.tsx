@@ -24,7 +24,7 @@ function App() {
     const todoistApi = new TodoistApi(token);
 
     todoistApi.getTasks().then((tasks: Task[]) => {
-      if (typeof tasks != "undefined" && tasks.length > 0) {
+      if (typeof tasks != "undefined") {
         setTasks(tasks);
 
         // cache tasks in local storage
