@@ -66,11 +66,17 @@ function App() {
           <Center pt="2">
             <Text fontWeight="bold">- {quote?.author}</Text>
           </Center>
-          <SimpleGrid columns={5} spacing={3} p={5} pl={10}>
-            {tasks?.map((task: Task) => (
-              <TaskCard task={task} key={task.id} />
-            ))}
-          </SimpleGrid>
+          {typeof tasks !== "undefined" && tasks.length !== 0 ? (
+            <SimpleGrid columns={5} spacing={3} p={5} pl={10}>
+              {tasks?.map((task: Task) => (
+                <TaskCard task={task} key={task.id} />
+              ))}
+            </SimpleGrid>
+          ) : (
+            <Center pt="10">
+              <Text>Nothing here! Enjoy your day!</Text>
+            </Center>
+          )}
         </>
       ) : (
         <>
